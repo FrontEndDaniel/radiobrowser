@@ -1,6 +1,11 @@
-import './plugins/axios'
-import { createApp } from 'vue'
-import App from './App.vue'
-import './assets/tailwind.css'
+import { createApp } from 'vue';
+import App from './App.vue';
+import fontawesome from '@/plugins/fontawesome'; // Importa o Font Awesome como plugin
+import './plugins/axios'; // Axios
+import './assets/tailwind.css';
 
-createApp(App).mount('#app')
+const app = createApp(App);
+
+fontawesome(app); // Usa o plugin Font Awesome
+
+app.mount('#app');
