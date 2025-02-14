@@ -1,5 +1,5 @@
 <template>
-    <div class="w-[144px] h-[182px] bg-white p-4 rounded-lg shadow flex flex-col bg-[#181818]">
+    <div class="w-[144px] h-[182px]  p-4 rounded-lg shadow flex flex-col bg-[#181818]">
         <!-- Imagem da rádio -->
         <img :src="radioImg" alt="Radio Imagen" class="w-20 h-20 object-contain mb-2 mx-auto" />
 
@@ -34,7 +34,7 @@ export default defineComponent({
             required: true
         },
         radioFavorite: {
-            type: Boolean,
+            type: String,
             required: true
         }
     },
