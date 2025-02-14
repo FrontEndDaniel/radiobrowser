@@ -9,7 +9,7 @@ import HomeView from './components/home/HomeView.vue';
 export default defineComponent({
   name: 'App',
   components: {
-    HomeView
+    HomeView,
   }
 });
 </script>
