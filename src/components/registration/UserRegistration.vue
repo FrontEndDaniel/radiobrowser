@@ -14,8 +14,12 @@
                         @click="login">Entrar</button>
                 </div>
                 <div class="flex">
+                    <button class="font-bold rounded-2xl w-32 h-8 text-white" @click="toHome">Voltar home</button>
+                </div>
+                <div class="flex">
                     <button class="font-bold rounded-2xl w-32 h-8 text-white" @click="toRegister">Criar conta</button>
                 </div>
+                
             </div>
 
             <!-- Criar conta -->
@@ -31,8 +35,12 @@
                         @click="registerUser">Criar conta</button>
                 </div>
                 <div class="flex">
+                    <button class="font-bold rounded-2xl w-32 h-8 text-white" @click="toHome">Voltar home</button>
+                </div>
+                <div class="flex">
                     <button class="font-bold rounded-2xl w-32 h-8 text-white" @click="toLogin">Já tem uma conta? Faça login</button>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -58,6 +66,9 @@ export default defineComponent({
         },
         toLogin() {
             this.register = false;
+        },
+        toHome() {
+            this.$router.push('/');
         },
         async registerUser() {
             if (this.password !== this.confirmPassword) {

@@ -1,11 +1,11 @@
 <template>
-    <div class="w-[144px] h-[182px]  p-4 rounded-lg shadow flex flex-col bg-[#181818]">
+    <div class="w-[144px] h-[182px] p-4 rounded-lg shadow flex flex-col bg-[#292929]">
         <!-- Imagem da rádio -->
         <img :src="radioImg" alt="Radio Imagen" class="w-20 h-20 object-contain mb-2 mx-auto" />
 
         <!-- Nome da rádio -->
         <div class="text-center text-white flex-grow">
-            <span >{{ radioName }}</span>
+            <span>{{ radioName }}</span>
         </div>
 
         <!-- Botões de Play e Favorito -->
@@ -20,10 +20,9 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
+<script>
+// Definição do componente com tipagem das props
+export default {
     props: {
         radioImg: {
             type: String,
@@ -34,7 +33,7 @@ export default defineComponent({
             required: true
         },
         radioFavorite: {
-            type: String,
+            type: Boolean,
             required: true
         }
     },
@@ -44,9 +43,9 @@ export default defineComponent({
             this.$emit('toggle-favorite');
         },
         playRadio() {
-            // Emite o evento para  iniciar a reprodução da rádio
+            // Emite o evento para iniciar a reprodução da rádio
             this.$emit('play-radio', { url: this.radioImg, name: this.radioName });
         }
     }
-});
+};
 </script>
