@@ -1,29 +1,45 @@
 <template>
     <div class="flex flex-col h-screen bg-black overflow-hidden">
-        <div class="flex flex-1 p-4">
-            <aside
-                class="bg-[#A62427] text-white flex flex-col items-center p-6 rounded-lg shadow-lg transition-all duration-300 justify-center h-[890px]"
-                :class="{ 'w-80': !isFullScreen, 'w-screen h-screen fixed top-0 left-0 z-50 flex justify-center items-center': isFullScreen }">
-                <div class="mb-60">
+        <div class="flex flex-1 pr-4">
+
+            <!-- card lateral onde toca a radio -->
+
+            <div v-if="isPlayerVisible"
+                class="bg-[#A62427] text-white  p-6 rounded-lg shadow-lg transition-all duration-300  h-[890px] mt-2"
+                :class="{ 'w-80': !isFullScreen, 'w-screen h-screen fixed top-0 left-0 z-50 ': isFullScreen }">
+
+                <div class="flex justify-between ">
+                    <h1 class="text-4xl font-bold tracking-wide ">Web Rádio</h1>
                     <button @click="toggleFullScreen">
                         <font-awesome-icon :icon="['fas', isFullScreen ? 'compress' : 'expand']"
                             class="text-white text-xl" />
                     </button>
                 </div>
-                <div class="w-full flex justify-center  items-center">
-                    <h1 class="text-4xl font-bold tracking-wide">Web Rádio</h1>
+
+                <div class="w-full flex justify-center items-center pt-60 ">
+                    <h2 class="text-lg font-bold pt-5">TOCANDO AGORA</h2>
                 </div>
 
-                <h2 class="text-lg font-bold pt-5">TOCANDO AGORA</h2>
-                <img :src="radio.favicon ? radio.favicon : defaultFavicon" alt="Radio Logo"
-                    class="w-80 h-auto object-cover rounded-lg my-4" />
-                <h3 class="text-lg font-semibold"> {{ radio.name }} </h3>
+                <div class="flex justify-center items-center">
+                    <img :src="radio.favicon ? radio.favicon : defaultFavicon" alt="Radio Logo"
+                        class="w-80 h-auto object-cover rounded-lg my-4" />
+                </div>
 
-                <audio ref="audioPlayer" controls autoplay class="bg-slate-100 rounded-2xl">
-                    <source :src="currentUrl" type="audio/mpeg">
-                </audio>
-            </aside>
-            <div class="flex-1  p-4 ml-4 bg-[#181818bd] rounded-lg flex flex-col justify-between ">
+                <div class="flex justify-center items-center">
+
+                    <h3 class="text-lg font-semibold"> {{ radio.name }} </h3>
+                </div>
+
+                <div class="flex justify-center items-center">
+                    <audio ref="audioPlayer" controls autoplay class="bg-slate-100 rounded-2xl">
+                        <source :src="currentUrl" type="audio/mpeg">
+                    </audio>
+                </div>
+
+
+            </div>
+
+            <div class="flex-1 ml-4 pr-4 pt-4 mt-2 mb-4 bg-[#181818bd] rounded-lg flex flex-col justify-between ">
                 <div>
                     <div class="flex justify-end">
                         <button class="bg-gradient-to-r from-[#C70300] to-[#f96401] font-bold rounded-2xl w-20"
@@ -50,32 +66,46 @@
                         </button>
                     </div>
                 </div>
-                <main class="flex-1 p-4 ml-4 bg-[#181818bd] rounded-lg flex flex-col items-center justify-start">
-                    <div  v-if="loading" class="flex justify-center items-center min-h-screen">
-                        <div className="w-24 h-24 border-4 border-t-transparent border-blue-500 rounded-full animate-spin "></div>
-                    </div>
-                   
+                <main class="flex-1 p-4 ml-4 mb-4 bg-[#181818bd] rounded-lg flex flex-col items-center ">
 
-                    <div>
-                        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-8 gap-4  flex-grow justify-start">
-                            <div v-for="radio in paginatedRadios" :key="radio.id">
-                                <CardsView :radioImg="radio.favicon"
-                                    :radioName="radio.name.length > 15 ? radio.name.substring(0, 15) + '...' : radio.name"
-                                    :radioFavorite="radioFavorite[radio.changeuuid]"
-                                    @toggle-favorite="toggleFavorite(radio)" @play-radio="radioPlay(radio)" />
-                            </div>
+                    <!-- Loader centralizado -->
+                    <div v-if="loading" class="flex flex-1 items-center justify-center w-full">
+                        <div class="w-24 h-24 border-4 border-t-transparent border-blue-500 rounded-full animate-spin">
+                        </div>
+                    </div>
+
+                    <!-- Grid com os cards -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 w-full">
+                        <div v-for="radio in paginatedRadios" :key="radio.id">
+                            <CardsView :radioImg="radio.favicon"
+                                :radioName="radio.name.length > 15 ? radio.name.substring(0, 15) + '...' : radio.name"
+                                :radioFavorite="radioFavorite[radio.changeuuid]"
+                                @toggle-favorite="toggleFavorite(radio)" @play-radio="radioPlay(radio)" />
+                        </div>
+                    </div>
+                    <div class="mt-4" v-if="isMiniPlayerVisible">
+                        <div class="flex justify-center items-center">
+
+                            <h3 class="text-lg text-white font-semibold"> {{ radio.name }} </h3>
                         </div>
 
+                        <div class="flex justify-center items-center">
+                            <audio ref="audioPlayer" controls autoplay class="bg-slate-100 rounded-2xl">
+                                <source :src="currentUrl" type="audio/mpeg">
+                            </audio>
+                        </div>
 
                     </div>
+
+                    <div class="w-full flex justify-center items-center ">
+                        <button class="p-2 bg-slate-950 text-white rounded-lg m-3 font-bold" @click="prevPage"
+                            :disabled="currentPage === 1">Anterior</button>
+                        <span class="text-white font-bold">Página {{ currentPage }} de {{ totalPages }}</span>
+                        <button class="p-2 bg-slate-950 text-white rounded-lg m-3 font-bold" @click="nextPage"
+                            :disabled="currentPage === totalPages">Próxima</button>
+                    </div>
                 </main>
-                <div class="w-full flex justify-center items-center mt-4">
-                    <button class="p-2 bg-slate-950 text-white rounded-lg m-3 font-bold" @click="prevPage"
-                        :disabled="currentPage === 1">Anterior</button>
-                    <span class="text-white font-bold">Página {{ currentPage }} de {{ totalPages }}</span>
-                    <button class="p-2 bg-slate-950 text-white rounded-lg m-3 font-bold" @click="nextPage"
-                        :disabled="currentPage === totalPages">Próxima</button>
-                </div>
+
             </div>
         </div>
     </div>
@@ -96,6 +126,8 @@ export default defineComponent({
             radioFavorite: {},
             showFavoritesOnly: false,
             isFullScreen: false,
+            isPlayerVisible: true,
+            isMiniPlayerVisible: false,
             loading: false,
             radios: [],
             radio: {},
@@ -136,7 +168,8 @@ export default defineComponent({
                     favicon: radio.favicon || this.defaultFavicon
                 }));
 
-                this. loading = false
+                this.loading = false
+
             } catch (error) {
                 console.error("Erro ao carregar rádios:", error);
             }
@@ -213,15 +246,22 @@ export default defineComponent({
                     this.$refs.audioPlayer.play();
                 }
             });
+
         },
         updateRadiosPerPage() {
             const width = window.innerWidth;
 
             if (width < 640) {
-                this.radiosPerPage = 3; // Para telas pequenas (exemplo: celulares)
+                this.isPlayerVisible = false;
+                this.isMiniPlayerVisible = true;
+                this.radiosPerPage = 4; // Para telas pequenas (exemplo: celulares)
             } else if (width < 1024) {
-                this.radiosPerPage = 6; // Para telas médias (exemplo: tablets)
+                this.isPlayerVisible = false;
+                this.isMiniPlayerVisible = true;
+                this.radiosPerPage = 16; // Para telas médias (exemplo: tablets)
             } else {
+                this.isPlayerVisible = true;
+                this.isMiniPlayerVisible = false;
                 this.radiosPerPage = 24; // Para telas maiores (exemplo: desktops)
             }
 

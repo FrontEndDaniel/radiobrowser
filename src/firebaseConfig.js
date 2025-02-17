@@ -6,7 +6,7 @@ const firebaseConfig = {
     projectId: "radioweb-12422",
     storageBucket: "radioweb-12422.appspot.com",
     messagingSenderId: "37763249961",
-    appId: "1:37763249961:web:SEU_APP_ID"
+    appId: "1:37763249961:web:"
 };
 
 // Inicializa o Firebase

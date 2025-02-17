@@ -1,14 +1,14 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import fontawesome from '@/plugins/fontawesome'; // Importa o Font Awesome como plugin
-import './plugins/axios'; // Axios
+import fontawesome from '@/plugins/fontawesome'; 
+import './plugins/axios'; 
 import './assets/tailwind.css';
-import router from '@/router';  // Importe o Vue Router
+import router from '@/router';  
 
 const app = createApp(App);
 
-fontawesome(app); // Usa o plugin Font Awesome
+fontawesome(app); 
 
-app.use(router);  // Use o Vue Router
+app.use(router);  
 
 app.mount('#app');

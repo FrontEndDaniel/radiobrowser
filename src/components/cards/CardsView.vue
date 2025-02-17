@@ -1,22 +1,34 @@
 <template>
-    <div class="w-[144px] h-[182px] p-4 rounded-lg shadow flex flex-col bg-[#292929]">
+
+    <div class="w-[134px] h-[162px] p-4 rounded-lg shadow flex flex-col bg-[#292929] relative  transition-transform hover:shadow-xl hover:scale-110 hover:z-10">
+       
         <!-- Imagem da rádio -->
-        <img :src="radioImg" alt="Radio Imagen" class="w-20 h-20 object-contain mb-2 mx-auto" />
+       
+            <div class="w-24 h-24 overflow-hidden">
+                 <img :src="radioImg" alt="Radio Imagen" class="w-20 h-20  mx-auto" />
+            </div>
+       
 
         <!-- Nome da rádio -->
-        <div class="text-center text-white flex-grow">
+
+        <div class="text-center text-white flex-grow object-contain mx-auto">
             <span>{{ radioName }}</span>
         </div>
 
         <!-- Botões de Play e Favorito -->
-        <div class="flex justify-between items-center mt-auto">
-            <button class="text-blue-500 text-xl" @click="playRadio">
-                <font-awesome-icon :icon="['fas', 'play']" />
-            </button>
-            <button class="text-red-500 text-xl" @click="toggleFavorite">
-                <font-awesome-icon :icon="['fas', radioFavorite ? 'heart' : 'heart-broken']" />
-            </button>
+
+        <div class="">
+            <div class="flex justify-between ">
+
+                <button class="text-blue-500 text-xl" @click="playRadio">
+                    <font-awesome-icon :icon="['fas', 'play']" />
+                </button>
+                <button class="text-red-500 text-xl" @click="toggleFavorite">
+                    <font-awesome-icon :icon="['fas', radioFavorite ? 'heart' : 'heart-broken']" />
+                </button>
+            </div>
         </div>
+
     </div>
 </template>
 
